@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
+import './product_details.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
   final List<Product> products = [
@@ -9,7 +10,7 @@ class ProductOverviewScreen extends StatelessWidget {
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
+          'https://image.shutterstock.com/image-photo/front-back-views-tshirt-on-600w-562774909.jpg',
     ),
     Product(
       id: 'p2',
@@ -41,24 +42,56 @@ class ProductOverviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Shop app'),
+        backgroundColor: Colors.red,
       ),
       body: GridView.builder(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
+              maxCrossAxisExtent: 300,
               childAspectRatio: 3 / 2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10),
           itemCount: products.length,
           itemBuilder: (BuildContext ctx, index) {
-            return Container(
-                alignment: Alignment.center,
-                child: GridTile(child: Text("hello"))
-                //      header: Text("GridTile header", style: TextStyle(color: Colors.white)
-                //   decoration: BoxDecoration(
-                //       color: Colors.amber,
-                //       borderRadius: BorderRadius.circular(15)),
-                // );
-                );
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: GridTile(
+                  footer: GridTileBar(
+                    backgroundColor: Colors.black87,
+                    leading: IconButton(
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {},
+                      iconSize: 35,
+                      color: Colors.orange,
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.shopping_cart),
+                      onPressed: () {},
+                      iconSize: 35,
+                      color: Colors.orange,
+                    ),
+                    title: Text(
+                      products[index].title,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductDetails(
+                                  title: products[index].title,
+                                  description: products[index].description,
+                                  price: products[index].price,
+                                )),
+                      );
+                    },
+                    child: Image.network(
+                      products[index].imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  )),
+            );
           }),
     );
   }
