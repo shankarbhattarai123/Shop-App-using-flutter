@@ -35,57 +35,63 @@ class Products extends ChangeNotifier {
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
-    Product(
-      id: 'p5',
-      title: 'speaker',
-      description: 'listen loud and clear music.',
-      price: 499.99,
-      imageUrl:
-          'https://images.pexels.com/photos/2651794/pexels-photo-2651794.jpeg',
-    ),
-    Product(
-      id: 'p6',
-      title: 'face wash cream',
-      description: 'keep your face clean and sharp.',
-      price: 456.99,
-      imageUrl:
-          'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg',
-    ),
-    Product(
-      id: 'p7',
-      title: 'bag',
-      description: 'Be stylish by using branded stuff',
-      price: 750.50,
-      imageUrl:
-          'https://images.pexels.com/photos/2081199/pexels-photo-2081199.jpeg',
-    ),
-    Product(
-      id: 'p8',
-      title: 'VR(virtual reality)',
-      description: 'Experience the world in different way',
-      price: 2240,
-      imageUrl:
-          'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg',
-    ),
-    Product(
-      id: 'p9',
-      title: 'heater',
-      description: 'keep warm your body',
-      price: 1260,
-      imageUrl:
-          'https://images.pexels.com/photos/923289/pexels-photo-923289.jpeg',
-    ),
-    Product(
-      id: 'p10',
-      title: 'mask',
-      description: 'be safe from corona in this pandemic',
-      price: 160.50,
-      imageUrl:
-          'https://images.pexels.com/photos/3786126/pexels-photo-3786126.jpeg',
-    ),
+    // Product(
+    //   id: 'p5',
+    //   title: 'speaker',
+    //   description: 'listen loud and clear music.',
+    //   price: 499.99,
+    //   imageUrl:
+    //       'https://images.pexels.com/photos/2651794/pexels-photo-2651794.jpeg',
+    // ),
+    // Product(
+    //   id: 'p6',
+    //   title: 'face wash cream',
+    //   description: 'keep your face clean and sharp.',
+    //   price: 456.99,
+    //   imageUrl:
+    //       'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg',
+    // ),
+    // Product(
+    //   id: 'p7',
+    //   title: 'bag',
+    //   description: 'Be stylish by using branded stuff',
+    //   price: 750.50,
+    //   imageUrl:
+    //       'https://images.pexels.com/photos/2081199/pexels-photo-2081199.jpeg',
+    // ),
+    // Product(
+    //   id: 'p8',
+    //   title: 'VR(virtual reality)',
+    //   description: 'Experience the world in different way',
+    //   price: 2240,
+    //   imageUrl:
+    //       'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg',
+    // ),
+    // Product(
+    //   id: 'p9',
+    //   title: 'heater',
+    //   description: 'keep warm your body',
+    //   price: 1260,
+    //   imageUrl:
+    //       'https://images.pexels.com/photos/923289/pexels-photo-923289.jpeg',
+    // ),
+    // Product(
+    //   id: 'p10',
+    //   title: 'mask',
+    //   description: 'be safe from corona in this pandemic',
+    //   price: 160.50,
+    //   imageUrl:
+    //       'https://images.pexels.com/photos/3786126/pexels-photo-3786126.jpeg',
+    // ),
   ];
 
-  List<Product> get items => [..._items];
+  List<Product> get items {
+    return [..._items];
+  }
+
+  List<Product> get favoriteItem {
+    return _items.where((element) => element.isfavorite).toList();
+  }
 
   void add(Product item) {
     _items.add(item);
