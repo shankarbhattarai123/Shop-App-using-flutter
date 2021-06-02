@@ -35,6 +35,7 @@ class Userprodcuts extends StatelessWidget {
           return Column(
             children: [
               UserProductItem(
+                id: Product.items[i].id,
                 title: Product.items[i].title,
                 imageUrl: Product.items[i].imageUrl,
               ),

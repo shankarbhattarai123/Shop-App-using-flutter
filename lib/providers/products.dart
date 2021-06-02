@@ -93,15 +93,21 @@ class Products extends ChangeNotifier {
     return _items.where((element) => element.isfavorite).toList();
   }
 
-  void add(Product item) {
-    _items.add(item);
-    // This call tells the widgets that are listening to this model to rebuild.
+  void add(Product p) {
+    final newProduct = Product(
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        price: p.price,
+        imageUrl: p.imageUrl);
+    _items.add(newProduct);
+
     notifyListeners();
   }
 
   /// Removes all items from the cart.
-  void removeAll() {
-    _items.clear();
+  void removeitem(String id) {
+    _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 }
