@@ -19,7 +19,26 @@ class ProductOverviewScreen extends StatefulWidget {
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   bool _showOnlyFavorite = false;
+  bool _loading = false;
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _loading = true;
+    });
+
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<Products>(context, listen: false).getResponse();
+      setState(() {
+        _loading = false;
+      });
+    });
+  }
+
+  Future<void> refresh(BuildContext ctx) async {
+    await Provider.of<Products>(ctx, listen: false).getResponse();
+  }
+
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context, listen: false);
     final item = Provider.of<Products>(context, listen: true);
@@ -68,15 +87,20 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       //   builder: (context, item, child) {
       //
       //     return
-      body: GridView.builder(
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
-              childAspectRatio: 3 / 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-          itemCount: item.items.length,
-          itemBuilder: (BuildContext ctx, i) => ChangeNotifierProvider(
-              create: (c) => items[i], child: ProducItem())),
+      body: _loading
+          ? Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: () => refresh(context),
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 300,
+                      childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
+                  itemCount: item.items.length,
+                  itemBuilder: (BuildContext ctx, i) => ChangeNotifierProvider(
+                      create: (c) => items[i], child: ProducItem())),
+            ),
     );
   }
 }

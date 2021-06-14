@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart.dart';
 import '../providers/orders.dart';
-import '../Screens/orders_screen.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
+    var _isloading = false;
+    final cart = Provider.of<Cart>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text("Your Cart"),
@@ -34,16 +39,23 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: Colors.purple,
                   ),
                   FlatButton(
-                    onPressed: () {
-                      Provider.of<Order>(context, listen: false).addOrder(
-                          cart.items.values.toList(), cart.totalAmount);
-                      cart.clear();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => OrderScreen()),
-                      );
-                    },
-                    child: Text("Order Now"),
+                    child: _isloading
+                        ? CircularProgressIndicator()
+                        : Text("Order Now"),
+                    onPressed: cart.totalAmount <= 0 || _isloading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isloading = true;
+                            });
+                            await Provider.of<Order>(context, listen: false)
+                                .addOrder(cart.items.values.toList(),
+                                    cart.totalAmount);
+                            setState(() {
+                              _isloading = false;
+                            });
+                            cart.clear();
+                          },
                     textColor: Colors.purple,
                   )
                 ],

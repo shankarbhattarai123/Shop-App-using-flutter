@@ -8,7 +8,7 @@ import '../Screens/edit_product_screen.dart';
 class Userprodcuts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Product = Provider.of<Products>(context);
+    final product = Provider.of<Products>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -30,14 +30,14 @@ class Userprodcuts extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: ListView.builder(
-        itemCount: Product.items.length,
+        itemCount: product.items.length,
         itemBuilder: (c, i) {
           return Column(
             children: [
               UserProductItem(
-                id: Product.items[i].id,
-                title: Product.items[i].title,
-                imageUrl: Product.items[i].imageUrl,
+                id: product.items[i].id,
+                title: product.items[i].title,
+                imageUrl: product.items[i].imageUrl,
               ),
               Divider()
             ],
